@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
@@ -338,15 +337,13 @@ class ThemeController extends GetxController {
   Future<void> setWindowsTitleBarColor(Color color) async {
     if (!GetPlatform.isWindows) return;
     try {
-      if (!isWindows) {
-        Future.delayed(
-            const Duration(milliseconds: 350),
-            () async => await platform.invokeMethod('setTitleBarColor', {
-                  'r': color.red,
-                  'g': color.green,
-                  'b': color.blue,
-                }));
-      }
+      Future.delayed(
+          const Duration(milliseconds: 350),
+          () async => await platform.invokeMethod('setTitleBarColor', {
+                'r': color.red,
+                'g': color.green,
+                'b': color.blue,
+              }));
     } on PlatformException catch (e) {
       printERROR("Failed to set title bar color: ${e.message}");
     }
