@@ -13,8 +13,7 @@ import '../widgets/snackbar.dart';
 import '/services/synced_lyrics_service.dart';
 import '/ui/screens/Settings/settings_screen_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import '../../services/windows_audio_service.dart';
-import '../../utils/helper.dart';
+import '../../services/windows_audio_service.dart';import '/services/desktop_notification_service.dart';import '../../utils/helper.dart';
 import '/models/media_Item_builder.dart';
 import '../screens/Home/home_screen_controller.dart';
 import '../widgets/sliding_up_panel.dart';
@@ -115,6 +114,13 @@ class PlayerController extends GetxController
 
     if (GetPlatform.isDesktop) {
       setVolume(appPrefs.get("volume") ?? 100);
+      // ensure notifications service is ready (main registers it but
+      // controller may also be instantiated before that happens in some flows)
+      if (!Get.isRegistered<DesktopNotificationService>()) {
+        final ns = DesktopNotificationService();
+        Get.put(ns);
+        ns.init();
+      }
     }
 
     if ((appPrefs.get("playerUi") ?? 0) == 1) {
@@ -276,6 +282,16 @@ class PlayerController extends GetxController
         // reset player visible state when player is in gesture mode
         if (Get.find<SettingsScreenController>().playerUi.value == 1) {
           gesturePlayerVisibleState.value = 2;
+        }
+
+        // show desktop notification if enabled
+        try {
+          final item = mediaItem;
+          if (item != null) {
+            Get.find<DesktopNotificationService>().showTrackChange(item);
+          }
+        } catch (e) {
+          // service may not be registered yet or platform not desktop
         }
       }
     });

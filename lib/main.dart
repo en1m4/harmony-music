@@ -20,8 +20,8 @@ import '/ui/utils/theme_controller.dart';
 import '/ui/utils/fullscreen_controller.dart';
 import 'ui/screens/Home/home_screen_controller.dart';
 import 'ui/screens/Library/library_controller.dart';
-import 'utils/system_tray.dart';
-import 'utils/update_check_flag_file.dart';
+import 'utils/system_tray.dart';import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '/services/desktop_notification_service.dart';import 'utils/update_check_flag_file.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -102,6 +102,10 @@ Future<void> startApplicationServices() async {
     Get.lazyPut(() => SearchScreenController(), fenix: true);
     Get.lazyPut(() => FullscreenController(), fenix: true);
     Get.put(DesktopSystemTray());
+    // desktop notification service is required for track-change popups
+    final notificationService = DesktopNotificationService();
+    Get.put(notificationService);
+    await notificationService.init();
   }
 }
 

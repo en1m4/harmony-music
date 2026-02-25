@@ -84,6 +84,7 @@ dependencies:
     git:
       url: https://github.com/anandnet/youtube_explode_dart.git
       ref: 1d9ec9baa806705b1d859260eeb389ec28c6b024
+  flutter_local_notifications: ^14.0.0
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to

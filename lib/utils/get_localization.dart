@@ -1911,6 +1911,8 @@ Map<String, Map<String, String>> get keys => {
     "low": "Low",
     "backgroundPlay": "Background music play",
     "backgroundPlayDes": "Enable/Disable music playing in background (App can be accessed from system tray when app is running in background)",
+    "desktopTrackNotification": "Show track change notification",
+    "desktopTrackNotificationDes": "Display desktop notification when the current track changes (requires background play)",
     "downloadLocation": "Download Location",
     "cacheHomeScreenData": "Cache home screen content data",
     "cacheHomeScreenDataDes": "Enable Caching home screen content data, Home screen will load instantly if this option is enabled",

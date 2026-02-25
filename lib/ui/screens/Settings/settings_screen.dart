@@ -409,6 +409,25 @@ class SettingsScreen extends StatelessWidget {
                               onChanged:
                                   settingsController.toggleBackgroundPlay),
                         )),
+                  // desktop notification toggle appears only when background play enabled
+                  if (isDesktop)
+                    ListTile(
+                        contentPadding:
+                            const EdgeInsets.only(left: 5, right: 10),
+                        title: Text("desktopTrackNotification".tr),
+                        subtitle: Text("desktopTrackNotificationDes".tr,
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        trailing: Obx(
+                          () => CustSwitch(
+                              value: settingsController
+                                  .desktopTrackNotificationsEnabled.value,
+                              onChanged: settingsController
+                                      .backgroundPlayEnabled.value
+                                  ? settingsController
+                                      .toggleDesktopTrackNotifications
+                                  : null),
+                        )),
+
                   ListTile(
                       contentPadding: const EdgeInsets.only(left: 5, right: 10),
                       title: Text("keepScreenOnWhilePlaying".tr),

@@ -18,6 +18,7 @@ import '/ui/player/player_controller.dart';
 import '../Home/home_screen_controller.dart';
 import '/ui/utils/theme_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import '/services/desktop_notification_service.dart';
 
 class SettingsScreenController extends GetxController {
   late String _supportDir;
@@ -44,6 +45,7 @@ class SettingsScreenController extends GetxController {
   final isTransitionAnimationDisabled = false.obs;
   final isBottomNavBarEnabled = false.obs;
   final backgroundPlayEnabled = true.obs;
+  final desktopTrackNotificationsEnabled = false.obs;
   final keepScreenAwake = false.obs;
   final restorePlaybackSession = false.obs;
   final cacheHomeScreenData = true.obs;
@@ -106,6 +108,12 @@ class SettingsScreenController extends GetxController {
     backgroundPlayEnabled.value = setBox.get("backgroundPlayEnabled") ?? true;
     keepScreenAwake.value =
         setBox.get("keepScreenAwake") ?? GetPlatform.isDesktop ? true : false;
+    desktopTrackNotificationsEnabled.value =
+        setBox.get("desktopTrackNotificationsEnabled") ?? false;
+    if (!backgroundPlayEnabled.value) {
+      // if background play is disabled, turn off notifications too
+      desktopTrackNotificationsEnabled.value = false;
+    }
     final downloadPath =
         setBox.get('downloadLocationPath') ?? await _createInAppSongDownDir();
     downloadLocationPath.value =
@@ -295,6 +303,19 @@ class SettingsScreenController extends GetxController {
   void toggleBackgroundPlay(bool val) {
     setBox.put('backgroundPlayEnabled', val);
     backgroundPlayEnabled.value = val;
+    // when background play disabled also disable notifications
+    if (!val) {
+      toggleDesktopTrackNotifications(false);
+      if (Get.isRegistered<DesktopNotificationService>()) {
+        Get.find<DesktopNotificationService>().cancel();
+      }
+    }
+  }
+
+  void toggleDesktopTrackNotifications(bool val) {
+    // ignore: avoid_slow_async_io
+    setBox.put('desktopTrackNotificationsEnabled', val);
+    desktopTrackNotificationsEnabled.value = val;
   }
 
   void toggleKeepScreenAwake(bool val) {
