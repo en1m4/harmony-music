@@ -27,6 +27,8 @@ class SettingsScreen extends StatelessWidget {
     final settingsController = Get.find<SettingsScreenController>();
     final topPadding = context.isLandscape ? 50.0 : 90.0;
     final isDesktop = GetPlatform.isDesktop;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    final openAllAccordions = isDesktop && isPortrait;
     return Padding(
       padding: isBottomNavActive
           ? EdgeInsets.only(left: 20, top: topPadding, right: 15)
@@ -85,6 +87,7 @@ class SettingsScreen extends StatelessWidget {
                     : const SizedBox.shrink(),
               ),
               CustomExpansionTile(
+                initiallyExpanded: openAllAccordions,
                 title: "personalisation".tr,
                 icon: Icons.palette,
                 children: [
@@ -205,6 +208,7 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
               CustomExpansionTile(
+                  initiallyExpanded: openAllAccordions,
                   title: "content".tr,
                   icon: Icons.music_video,
                   children: [
@@ -330,6 +334,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ]),
               CustomExpansionTile(
+                initiallyExpanded: openAllAccordions,
                 title: "music&Playback".tr,
                 icon: Icons.music_note,
                 children: [
@@ -506,6 +511,7 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
               CustomExpansionTile(
+                initiallyExpanded: openAllAccordions,
                 title: "download".tr,
                 icon: Icons.download,
                 children: [
@@ -599,6 +605,7 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
               CustomExpansionTile(
+                  initiallyExpanded: openAllAccordions,
                   title: "${"backup".tr} & ${"restore".tr}",
                   icon: Icons.restore,
                   children: [
@@ -632,6 +639,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ]),
               CustomExpansionTile(
+                  initiallyExpanded: openAllAccordions,
                   icon: Icons.miscellaneous_services,
                   title: "misc".tr,
                   children: [
@@ -655,6 +663,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ]),
               CustomExpansionTile(
+                initiallyExpanded: openAllAccordions,
                 icon: Icons.info,
                 title: "appInfo".tr,
                 children: [
